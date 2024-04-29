@@ -1,22 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
-
+using api.Interfaces;
 namespace api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private IAppDBContext _Context;
+        private readonly ILogger<WeatherForecastController> _logger;
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IAppDBContext context)
+        {
+            _logger = logger;
+            _Context = context;
+        } 
+
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
+
+
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
